@@ -1,9 +1,11 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:firebase_database/firebase_database.dart';
-import 'package:uuid/uuid.dart';
+import 'package:flutter/foundation.dart';
 
 Future<void> send_post(String url,String uuid) async {
-  var post_to_send = {
-    "$uuid": {
+  var postToSend = {
+    uuid: {
       "comments": [
         {
           "content": "super la fille mdr🤣!",
@@ -25,10 +27,12 @@ Future<void> send_post(String url,String uuid) async {
   });
 
   DatabaseReference ref = FirebaseDatabase.instance.ref("posts");
-  await ref.update(post_to_send);
+  await ref.update(postToSend);
   DatabaseReference refi = FirebaseDatabase.instance.ref("trends");
   final snapshot = await refi.get();
-  print(snapshot.children.length);
+  if (kDebugMode) {
+    print(snapshot.children.length);
+  }
   await refi.update({
     "${snapshot.children.length}" : {
       "id" : uuid

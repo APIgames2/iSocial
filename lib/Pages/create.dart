@@ -50,8 +50,7 @@ class _Create_PageState extends State<Create_Page> {
       navigationBar: const CupertinoNavigationBar(
         middle: Text('create'),
       ),
-      child: SafeArea(
-        child: Column(
+      child: Column(
           children: [
             if (file != null) Image.file(file!),
             CupertinoButton.filled(
@@ -64,7 +63,6 @@ class _Create_PageState extends State<Create_Page> {
             ),
           ],
         ),
-      ),
     );
   }
 }

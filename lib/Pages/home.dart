@@ -35,12 +35,10 @@ class _Home_PageState extends State<Home_Page> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('home page'),
-      ),
       child: CarouselSlider(
         options: CarouselOptions(
-          height: double.infinity,
+          viewportFraction: 1.0,
+          height:MediaQuery.of(context).size.height,
           scrollDirection: Axis.vertical,
         ),
         items: items,

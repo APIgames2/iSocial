@@ -13,13 +13,28 @@ class _Post_ItemState extends State<Post_Item> {
   Widget build(BuildContext context) {
     if (widget.post == null) {
       print(widget.post);
-      return CupertinoActivityIndicator();
+      return const CupertinoActivityIndicator();
     } else if (widget.post["images"] != null &&
         widget.post["images"]["url"] != null) {
-      return Image.network(widget.post["images"]["url"]);
+      return Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+          fit: BoxFit.cover,
+          image: NetworkImage(widget.post["images"]["url"]),
+        )),
+        child: const Column(
+          children: [
+            Spacer(),
+            Stack(
+              children: [Text("hi")],
+            ),
+            Spacer()
+          ],
+        ),
+      );
     } else {
       print(widget.post);
-      return CupertinoActivityIndicator(); // Return a fallback widget if the required data is missing
+      return const CupertinoActivityIndicator();
     }
   }
 }
