@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:isocial/functions/send_post.dart';
 import 'package:uuid/uuid.dart';
 
 class Create_Page extends StatefulWidget {
@@ -31,9 +32,17 @@ class _Create_PageState extends State<Create_Page> {
     void _send_file() async {
       if (file != null) {
         final storage = FirebaseStorage.instance;
-        var uuid = Uuid();
+        var uuid = const Uuid();
         final ref = storage.ref().child('images').child(uuid.v4());
         await ref.putFile(file!);
+
+        // Récupérer l'URL de l'image
+        final imageUrl = await ref.getDownloadURL();
+        
+        // Utiliser l'URL de l'image comme nécessaire
+        print('URL de l\'image : $imageUrl');
+        var uuid_new = const Uuid().v4();
+        await send_post(imageUrl,"$uuid_new");
       }
     }
 
@@ -46,12 +55,12 @@ class _Create_PageState extends State<Create_Page> {
           children: [
             if (file != null) Image.file(file!),
             CupertinoButton.filled(
-              child: const Text("pick file"),
               onPressed: _pick_file,
+              child: const Text("pick file"),
             ),
             CupertinoButton.filled(
-              child: const Text("envoyer la photo"),
               onPressed: _send_file,
+              child: const Text("envoyer la photo"),
             ),
           ],
         ),

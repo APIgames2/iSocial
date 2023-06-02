@@ -1,11 +1,13 @@
-// ignore_for_file: camel_case_types
-
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:isocial/components/Post.dart';
+import 'package:isocial/components/You_are_uptodate.dart';
+import 'package:isocial/functions/get_posts.dart';
+
+List<Widget> items = [];
 
 class Home_Page extends StatefulWidget {
-  const Home_Page({super.key});
+  const Home_Page({Key? key}) : super(key: key);
 
   @override
   State<Home_Page> createState() => _Home_PageState();
@@ -13,24 +15,35 @@ class Home_Page extends StatefulWidget {
 
 class _Home_PageState extends State<Home_Page> {
   @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    DatabaseReference update = FirebaseDatabase.instance.ref("trends");
+    update.onValue.listen((event) async {
+      final fetchedItems = await get_posts();
+      setState(() {
+        items = [];
+        items = fetchedItems;
+        items.add(const You_Are_UpToDate());
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
         middle: Text('home page'),
       ),
       child: CarouselSlider(
-        options: CarouselOptions(height: double.infinity,scrollDirection: Axis.vertical),
-        items: [1, 2, 3, 4, 5].map((i) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(color: CupertinoColors.activeBlue),
-                  child: const Post_Item()
-              );
-            },
-          );
-        }).toList(),
+        options: CarouselOptions(
+          height: double.infinity,
+          scrollDirection: Axis.vertical,
+        ),
+        items: items,
       ),
     );
   }

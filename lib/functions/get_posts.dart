@@ -1,37 +1,30 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:isocial/components/PostItem.dart';
 
-class TrendData {
-  final String id;
-
-  TrendData(this.id);
-}
-
-Future<String?> get_posts() async {
+Future<List<Widget>> get_posts() async {
+  List<dynamic> trendsId = [];
+  List<Widget> postsItems = [];
   DatabaseReference trends = FirebaseDatabase.instance.ref('trends');
   DatabaseReference posts = FirebaseDatabase.instance.ref('posts');
-
-  Completer<String?> completer = Completer<String?>();
-
-  trends.onValue.listen((DatabaseEvent event) {
-    final trendsData = event.snapshot.value as List<dynamic>?;
-    final trendObjects = trendsData
-        ?.map((data) => TrendData(data["id"].toString().trim()))
-        .toList();
-    print(trendObjects?[1].id.trim());
-
-    posts.onValue.listen((DatabaseEvent event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>?;
-
-      String? imageUrl = data?[trendObjects?[1].id.trim()]?["images"]?["url"];
-      print("Le premier post est $imageUrl");
-      completer.complete(imageUrl);
-    });
-  });
-
-  return completer.future;
+  final snapshot = await trends.get();
+  if (snapshot.exists && snapshot.value != null) {
+    if (kDebugMode) {
+      for (var id in snapshot.value as List<dynamic>) {
+        print(id["id"].toString().trim());
+        trendsId.add(id["id"].toString().trim());
+        final post = await posts.child(id["id"].toString().trim()).get();
+        print(post.value);
+        postsItems.add(Post_Item(post: post.value));
+      }
+      print(trendsId);
+      print(postsItems);
+    }
+  } else {
+    print('No data available.');
+  }
+  return postsItems;
 }
