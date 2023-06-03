@@ -1,10 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:isocial/functions/get_posts.dart';
-import 'package:responsive_grid_list/responsive_grid_list.dart';
 
 List<dynamic> images = [];
 List<Widget> elements = [];
