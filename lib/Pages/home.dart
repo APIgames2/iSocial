@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -25,7 +27,6 @@ class _Home_PageState extends State<Home_Page> {
     update.onValue.listen((event) async {
       final fetchedItems = await get_posts();
       setState(() {
-        items = [];
         items = fetchedItems;
         items.add(const You_Are_UpToDate());
       });
@@ -35,14 +36,15 @@ class _Home_PageState extends State<Home_Page> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
+        child: SafeArea(
       child: CarouselSlider(
         options: CarouselOptions(
           viewportFraction: 1.0,
-          height:MediaQuery.of(context).size.height,
+          height: double.infinity,
           scrollDirection: Axis.vertical,
         ),
         items: items,
       ),
-    );
+    ));
   }
 }

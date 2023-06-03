@@ -23,27 +23,52 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
-      debugShowCheckedModeBanner: false,
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            final user = snapshot.data;
-            if (user != null) {
-              return const NavBarMobile();
-            } else {
-              return const Login_Page();
+    var _isMobile = MediaQuery.of(context).size.width < 1000;
+    if (_isMobile) {
+      return CupertinoApp(
+        debugShowCheckedModeBanner: false,
+        home: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              final user = snapshot.data;
+              if (user != null) {
+                return const NavBarMobile();
+              } else {
+                return const Login_Page();
+              }
             }
-          }
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        },
-      ),
-    );
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          },
+        ),
+      );
+    } else {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              final user = snapshot.data;
+              if (user != null) {
+                return const NavBarDesktop();
+              } else {
+                return const Login_Page();
+              }
+            }
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          },
+        ),
+      );
+    }
   }
 }
 
@@ -60,7 +85,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override
@@ -112,23 +136,104 @@ class _NavBarMobileState extends State<NavBarMobile> {
       tabBuilder: (BuildContext context, int index) {
         return CupertinoTabView(
           builder: (BuildContext context) {
-            switch (index) {
-              case 0:
-                return const Home_Page();
-              case 1:
-                return const Search_Page();
-              case 2:
-                return const Create_Page();
-              case 3:
-                return const reals_Page();
-              case 4:
-                return const Profile_page();
-              default:
-                return const Home_Page();
-            }
+            return _Where(index);
           },
         );
       },
     );
+  }
+}
+
+class NavBarDesktop extends StatefulWidget {
+  const NavBarDesktop({super.key});
+
+  @override
+  State<NavBarDesktop> createState() => _NavBarDesktopState();
+}
+
+class _NavBarDesktopState extends State<NavBarDesktop> {
+  int _selectedIndex = 0;
+  NavigationRailLabelType labelType = NavigationRailLabelType.all;
+  bool showLeading = false;
+  bool showTrailing = false;
+  double groupAlignment = -1.0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Row(
+          children: <Widget>[
+            NavigationRail(
+              selectedIndex: _selectedIndex,
+              groupAlignment: groupAlignment,
+              onDestinationSelected: (int index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+              labelType: labelType,
+              leading: showLeading
+                  ? FloatingActionButton(
+                      elevation: 0,
+                      onPressed: () {
+                        // Add your onPressed code here!
+                      },
+                      child: const Icon(Icons.add),
+                    )
+                  : const SizedBox(),
+              trailing: showTrailing
+                  ? IconButton(
+                      onPressed: () {
+                        // Add your onPressed code here!
+                      },
+                      icon: const Icon(Icons.more_horiz_rounded),
+                    )
+                  : const SizedBox(),
+              destinations: const <NavigationRailDestination>[
+                NavigationRailDestination(
+                  icon: Icon(CupertinoIcons.home),
+                  label: Text("Home"),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(CupertinoIcons.search),
+                  label: Text('search'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(CupertinoIcons.plus),
+                  label: Text('create'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(CupertinoIcons.rectangle),
+                  label: Text('reals'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(CupertinoIcons.person_crop_circle),
+                  label: Text('profile'),
+                ),
+              ],
+            ),
+            const VerticalDivider(thickness: 1, width: 1),
+            Expanded(child: _Where(_selectedIndex))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget _Where(index) {
+  switch (index) {
+    case 0:
+      return const Home_Page();
+    case 1:
+      return const Search_Page();
+    case 2:
+      return const Create_Page();
+    case 3:
+      return const reals_Page();
+    case 4:
+      return const Profile_page();
+    default:
+      return const Home_Page();
   }
 }

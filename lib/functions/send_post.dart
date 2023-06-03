@@ -3,19 +3,20 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 
-Future<void> send_post(String url,String uuid) async {
+Future<void> send_post(String url,String uuid,String name) async {
   var postToSend = {
     uuid: {
       "comments": [
         {
-          "content": "super la fille mdr🤣!",
+          "content": "welcome to comments",
           "userid": "ZVmy1bjsXTR8nsPSPkeopkyx66B2"
         }
       ],
-      "images": {"name": "La petite fille bizzare", "url": url},
+      "images": {"name": name, "url": url},
       "likes": 0,
-      "private": true,
+      "private": false,
       "founder": "C1vSgvziEVdrmPRzZXP75MJ7Qvj2",
+      "share":0,
       "users": ["C1vSgvziEVdrmPRzZXP75MJ7Qvj2"]
     }
   };

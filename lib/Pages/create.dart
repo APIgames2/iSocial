@@ -7,6 +7,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:isocial/functions/send_post.dart';
 import 'package:uuid/uuid.dart';
 
+var name = "";
+
 class Create_Page extends StatefulWidget {
   const Create_Page({Key? key}) : super(key: key);
 
@@ -38,11 +40,11 @@ class _Create_PageState extends State<Create_Page> {
 
         // Récupérer l'URL de l'image
         final imageUrl = await ref.getDownloadURL();
-        
+
         // Utiliser l'URL de l'image comme nécessaire
         print('URL de l\'image : $imageUrl');
         var uuid_new = const Uuid().v4();
-        await send_post(imageUrl,"$uuid_new");
+        await send_post(imageUrl, "$uuid_new",name);
       }
     }
 
@@ -50,7 +52,8 @@ class _Create_PageState extends State<Create_Page> {
       navigationBar: const CupertinoNavigationBar(
         middle: Text('create'),
       ),
-      child: Column(
+      child: SafeArea(
+        child: Column(
           children: [
             if (file != null) Image.file(file!),
             CupertinoButton.filled(
@@ -61,8 +64,16 @@ class _Create_PageState extends State<Create_Page> {
               onPressed: _send_file,
               child: const Text("envoyer la photo"),
             ),
+            CupertinoTextField(
+              onChanged: (value) {
+                setState(() {
+                  name = value;
+                });
+              },
+            )
           ],
         ),
+      ),
     );
   }
 }
