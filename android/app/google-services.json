@@ -32,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "517965849045-pjgcn5rsnjacg0552t5gpivq0oa1ft52.apps.googleusercontent.com",
+              "client_id": "517965849045-jvdafhpvea16v2mjd6u4le7uiin9l104.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.isocial.RunnerTests"
+                "bundle_id": "com.ipados.onechat"
               }
             }
           ]

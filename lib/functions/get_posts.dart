@@ -8,7 +8,6 @@ import 'package:isocial/components/PostItem.dart';
 
 
 Future<List<Widget>> get_posts() async {
-  FirebaseDatabase.instance.setPersistenceEnabled(true);
   List<dynamic> trendsId = [];
   List<Widget> postsItems = [];
   DatabaseReference trends = FirebaseDatabase.instance.ref('trends');
@@ -33,7 +32,6 @@ Future<List<Widget>> get_posts() async {
 }
 
 Future<List<dynamic>> search_posts() async {
-  FirebaseDatabase.instance.setPersistenceEnabled(true);
   List<dynamic> trendsId = [];
   List<dynamic> images = [];
   DatabaseReference trends = FirebaseDatabase.instance.ref('trends');

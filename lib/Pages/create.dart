@@ -44,7 +44,7 @@ class _Create_PageState extends State<Create_Page> {
         // Utiliser l'URL de l'image comme nécessaire
         print('URL de l\'image : $imageUrl');
         var uuid_new = const Uuid().v4();
-        await send_post(imageUrl, "$uuid_new",name);
+        await send_post(imageUrl, "$uuid_new", name);
       }
     }
 
@@ -53,6 +53,7 @@ class _Create_PageState extends State<Create_Page> {
         middle: Text('create'),
       ),
       child: SafeArea(
+          child: SingleChildScrollView(
         child: Column(
           children: [
             if (file != null) Image.file(file!),
@@ -73,7 +74,7 @@ class _Create_PageState extends State<Create_Page> {
             )
           ],
         ),
-      ),
+      )),
     );
   }
 }

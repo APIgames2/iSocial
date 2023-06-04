@@ -222,8 +222,7 @@ class _Login_PageState extends State<Login_Page> {
                                         width: 60,
                                         height: 60,
                                         child: CupertinoButton(
-                                          onPressed: () {
-                                          },
+                                          onPressed: () {},
                                           child: Image.network(
                                               "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png"),
                                         ),
@@ -253,7 +252,9 @@ class _Login_PageState extends State<Login_Page> {
                                         width: 60,
                                         height: 60,
                                         child: CupertinoButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            FirebaseAuth.instance.signOut();
+                                          },
                                           child: Image.network(
                                               "https://seeklogo.com/images/M/meta-icon-new-facebook-2021-logo-83520C311D-seeklogo.com.png"),
                                         ),

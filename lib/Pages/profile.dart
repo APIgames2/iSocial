@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isocial/Pages/login.dart';
 
 class Profile_page extends StatefulWidget {
   const Profile_page({super.key});
@@ -10,6 +11,6 @@ class Profile_page extends StatefulWidget {
 class _Profile_pageState extends State<Profile_page> {
   @override
   Widget build(BuildContext context) {
-    return Text("profile page");
+    return const Login_Page();
   }
 }
