@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "isocial" "\0"
+            VALUE "FileDescription", "ilyna" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "isocial" "\0"
+            VALUE "InternalName", "ilyna" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "isocial.exe" "\0"
-            VALUE "ProductName", "isocial" "\0"
+            VALUE "OriginalFilename", "ilyna.exe" "\0"
+            VALUE "ProductName", "ilyna" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

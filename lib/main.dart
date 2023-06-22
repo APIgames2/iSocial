@@ -6,7 +6,7 @@ import 'package:isocial/Pages/create.dart';
 import 'package:isocial/Pages/home.dart';
 import 'package:isocial/Pages/login.dart';
 import 'package:isocial/Pages/profile.dart';
-import 'package:isocial/Pages/reals.dart';
+import 'package:isocial/Pages/chat.dart';
 import 'package:isocial/Pages/search.dart';
 import 'package:isocial/firebase_options.dart';
 
@@ -38,11 +38,12 @@ class MyApp extends StatelessWidget {
                 return const Login_Page();
               }
             }
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            final user = snapshot.data;
+              if (user != null) {
+                return const NavBarMobile();
+              } else {
+                return const Login_Page();
+              }
           },
         ),
       );
@@ -60,11 +61,12 @@ class MyApp extends StatelessWidget {
                 return const Login_Page();
               }
             }
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            final user = snapshot.data;
+              if (user != null) {
+                return const NavBarDesktop();
+              } else {
+                return const Login_Page();
+              }
           },
         ),
       );
@@ -124,8 +126,8 @@ class _NavBarMobileState extends State<NavBarMobile> {
             label: 'create',
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.rectangle),
-            label: 'reals',
+            icon: Icon(CupertinoIcons.chat_bubble_2),
+            label: 'chat',
           ),
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.person_crop_circle),
@@ -203,8 +205,8 @@ class _NavBarDesktopState extends State<NavBarDesktop> {
                   label: Text('create'),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(CupertinoIcons.rectangle),
-                  label: Text('reals'),
+                  icon: Icon(CupertinoIcons.chat_bubble_2),
+                  label: Text('chat'),
                 ),
                 NavigationRailDestination(
                   icon: Icon(CupertinoIcons.person_crop_circle),
@@ -230,7 +232,7 @@ Widget _Where(index) {
     case 2:
       return const Create_Page();
     case 3:
-      return const reals_Page();
+      return const Chat_Page();
     case 4:
       return const Profile_page();
     default:
